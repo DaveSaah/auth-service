@@ -9,7 +9,7 @@ import (
 func main() {
 	api := echo.New()
 
-	api.Logger.SetLevel(log.DEBUG) // initialize inline logger
+	api.Logger.SetLevel(log.DEBUG)  // initialize inline logger
 	api.Use(middleware.Recover())   // recover
 	api.Use(middleware.RequestID()) // add request ID
 	api.Use(middleware.Logger())

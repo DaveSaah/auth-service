@@ -48,13 +48,13 @@ func login(c echo.Context) error {
 	}
 
 	// user authentication successful
-	
+
 	// add jwt token
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
 		Issuer:    strconv.Itoa(int(user.ID)),
 		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(), // 1 day,
 	})
-	
+
 	// generate JWT token
 	token, err := claims.SignedString([]byte(jwtKey))
 	if err != nil {
@@ -67,6 +67,8 @@ func login(c echo.Context) error {
 		Value:    token,
 		Expires:  time.Now().Add(time.Hour * 24),
 		HttpOnly: true,
+		Secure:   true,
+		Path:     "/",
 	}
 	c.SetCookie(&cookie)
 
@@ -79,10 +81,10 @@ func isAuthenticated(c echo.Context) error {
 	// default is false
 	authMsg := echo.Map{"authenticated": false}
 	cookie, err := c.Cookie("jwt")
-	
+
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, authMsg)
-		c.Logger().Info(authMsg)	
+		c.Logger().Info(authMsg)
 		return err
 	}
 
@@ -94,12 +96,12 @@ func isAuthenticated(c echo.Context) error {
 		})
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, authMsg)
-		c.Logger().Info(authMsg)	
+		c.Logger().Info(authMsg)
 		return err
 	}
-	
+
 	// JWT valid
 	authMsg["authenticated"] = true
-	c.Logger().Info(authMsg)	
+	c.Logger().Info(authMsg)
 	return c.JSON(http.StatusOK, authMsg)
 }
