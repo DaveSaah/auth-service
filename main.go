@@ -32,5 +32,7 @@ func main() {
 	api.GET("/register", registerValidation)
 	api.GET("/authenticated", isAuthenticated)
 
+	protected := api.Group("/user")
+	protected.Use(authMiddleware)
 	api.Start(":3130")
 }
