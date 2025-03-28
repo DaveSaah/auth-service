@@ -25,6 +25,7 @@ func main() {
 	}))
 
 	api.POST("/register", register)
+	api.POST("/login", login)
 	api.GET("/register", registerValidation)
 
 	api.Logger.Fatal(api.Start(":3130"))
