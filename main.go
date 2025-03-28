@@ -34,5 +34,7 @@ func main() {
 
 	protected := api.Group("/user")
 	protected.Use(authMiddleware)
+	protected.GET("/logout", logout)
+
 	api.Start(":3130")
 }
