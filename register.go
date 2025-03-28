@@ -56,7 +56,7 @@ func register(c echo.Context) error {
 	var u db.User
 
 	if err := c.Bind(&u); err != nil {
-		c.JSON(http.StatusBadRequest, echo.Map{
+		return c.JSON(http.StatusBadRequest, echo.Map{
 			"message": "invalid form data",
 		})
 	}
